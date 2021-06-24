@@ -124,7 +124,7 @@ class _PricePageState extends State<PricePage> {
                     CryptoRateWidget(
                       cryptoCurrency: 'BTC',
                       fiatCurrency: 'USD',
-                      rate: '32,123',
+                      rate: '23,456',
                       cryptoImage: AssetImage('images/bitcoin.png'),
                     ),
                     CryptoRateWidget(
@@ -223,31 +223,44 @@ class CryptoRateWidget extends StatelessWidget {
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 1,
-                  child: Text(
-                    '$cryptoCurrency$fiatCurrency',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Color(0xff454545),
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$cryptoCurrency$fiatCurrency',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 23.0,
+                        color: Color(0xff454545),
+                        fontFamily: 'Anaheim',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Image(image: cryptoImage),
+                  flex: 3,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Image(image: cryptoImage),
+                    ),
                   ),
                 ),
                 Expanded(
-                  flex: 2,
-                  child: Text(
-                    '$rate',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 50.0,
-                      color: Color(0xff383838),
+                  flex: 3,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$rate',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        color: Color(0xff383838),
+                        fontFamily: 'Anaheim',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
