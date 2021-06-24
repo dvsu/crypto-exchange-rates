@@ -125,11 +125,13 @@ class _PricePageState extends State<PricePage> {
                       cryptoCurrency: 'BTC',
                       fiatCurrency: 'USD',
                       rate: '32,123',
+                      cryptoImage: AssetImage('images/bitcoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'ETH',
                       fiatCurrency: 'USD',
                       rate: '3,123',
+                      cryptoImage: AssetImage('images/ethereum.png'),
                     ),
                   ],
                 ),
@@ -142,11 +144,13 @@ class _PricePageState extends State<PricePage> {
                       cryptoCurrency: 'LTC',
                       fiatCurrency: 'USD',
                       rate: '123.12',
+                      cryptoImage: AssetImage('images/litecoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'DOGE',
                       fiatCurrency: 'USD',
                       rate: '0.12',
+                      cryptoImage: AssetImage('images/doge.png'),
                     ),
                   ],
                 ),
@@ -172,11 +176,13 @@ class CryptoRateWidget extends StatelessWidget {
   final String cryptoCurrency;
   final String fiatCurrency;
   final String rate;
+  final AssetImage cryptoImage;
 
   const CryptoRateWidget(
       {required this.cryptoCurrency,
       required this.fiatCurrency,
-      required this.rate});
+      required this.rate,
+      required this.cryptoImage});
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +223,7 @@ class CryptoRateWidget extends StatelessWidget {
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Text(
                     '$cryptoCurrency$fiatCurrency',
                     textAlign: TextAlign.center,
@@ -229,13 +235,13 @@ class CryptoRateWidget extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Icon(
-                    Icons.circle,
-                    size: 40.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Image(image: cryptoImage),
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: Text(
                     '$rate',
                     textAlign: TextAlign.center,
