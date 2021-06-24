@@ -8,7 +8,9 @@ class PricePage extends StatefulWidget {
 }
 
 class _PricePageState extends State<PricePage> {
-  String? selectedCurrency = 'USD';
+  String selectedCurrency = 'USD';
+  int pickedCurrencyNumber = 0;
+  bool isButtonDisabled = false;
 
   // a list of currency for Material design
   DropdownButton<String> getAndroidCurrencyDropdownList() {
@@ -37,7 +39,9 @@ class _PricePageState extends State<PricePage> {
       onChanged: (value) {
         print(value);
         setState(() {
-          selectedCurrency = value;
+          if (value != null) {
+            selectedCurrency = value;
+          }
         });
       },
     );
@@ -51,7 +55,9 @@ class _PricePageState extends State<PricePage> {
       currencies.add(Text(
         currency,
         style: TextStyle(
-          fontSize: 20.0,
+          fontSize: 24.0,
+          fontFamily: 'Barlow',
+          fontWeight: FontWeight.w500,
           color: Color(0xff121212),
         ),
       ));
@@ -62,39 +68,38 @@ class _PricePageState extends State<PricePage> {
       itemExtent: 35.0,
       onSelectedItemChanged: (selectedItem) {
         print(selectedItem);
+        setState(() {
+          pickedCurrencyNumber = selectedItem;
+          if (currenciesList[pickedCurrencyNumber] != selectedCurrency) {
+            isButtonDisabled = false;
+          } else {
+            isButtonDisabled = true;
+          }
+        });
       },
       children: currencies,
       magnification: 1.1,
+      looping: true,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xfff1f1f1),
-      //   brightness: ,
-      //   elevation: 0.0,
-      //   title: Text('Crypto Converter'),
-      // ),
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             gradient: RadialGradient(
-              // begin: Alignment.topLeft,
-              // end: Alignment.bottomRight,
-              center: Alignment(-0.7, -2.1),
-              radius: 2.7,
+              center: Alignment(-1.5, -2.0),
+              radius: 2.2,
               stops: [
-                0.6,
-                0.8,
-                1.1,
+                0.2,
+                1.8,
               ],
               colors: [
+                Color(0xbbd6fbff),
                 Color(0xccfefefe),
-                Color(0xffd6fbff),
-                Color(0xffeec2ff),
               ],
             ),
           ),
@@ -106,30 +111,40 @@ class _PricePageState extends State<PricePage> {
                   flex: 2,
                   child: Center(
                     child: Text(
-                      'Crypto Converter',
+                      'CRYPTO CONVERTER',
                       style: TextStyle(
-                        fontSize: 25.0,
+                        fontFamily: 'Anaheim',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0,
                       ),
                     ),
                   )),
               Expanded(
                   flex: 1,
                   child: Center(
-                    child: Text('last update on xx:xx'),
+                    child: Text(
+                      'last update on 25 June 2021, 12:34:56',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Barlow',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13.0,
+                      ),
+                    ),
                   )),
               Expanded(
-                flex: 5,
+                flex: 7,
                 child: Row(
                   children: [
                     CryptoRateWidget(
                       cryptoCurrency: 'BTC',
-                      fiatCurrency: 'USD',
+                      fiatCurrency: selectedCurrency,
                       rate: '23,456',
                       cryptoImage: AssetImage('images/bitcoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'ETH',
-                      fiatCurrency: 'USD',
+                      fiatCurrency: selectedCurrency,
                       rate: '3,123',
                       cryptoImage: AssetImage('images/ethereum.png'),
                     ),
@@ -137,18 +152,18 @@ class _PricePageState extends State<PricePage> {
                 ),
               ),
               Expanded(
-                flex: 5,
+                flex: 7,
                 child: Row(
                   children: [
                     CryptoRateWidget(
                       cryptoCurrency: 'LTC',
-                      fiatCurrency: 'USD',
+                      fiatCurrency: selectedCurrency,
                       rate: '123.12',
                       cryptoImage: AssetImage('images/litecoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'DOGE',
-                      fiatCurrency: 'USD',
+                      fiatCurrency: selectedCurrency,
                       rate: '0.12',
                       cryptoImage: AssetImage('images/doge.png'),
                     ),
@@ -156,12 +171,71 @@ class _PricePageState extends State<PricePage> {
                 ),
               ),
               Expanded(
-                flex: 4,
+                flex: 5,
                 child: Container(
                   height: 150.0,
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(bottom: 30.0),
+                  padding: EdgeInsets.all(10.0),
                   child: getIOSCurrencyPicker(),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 5.0,
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: LinearGradient(
+                        begin: Alignment(-1.5, -1.0),
+                        end: Alignment.bottomRight,
+                        stops: [-1.0, 1.2],
+                        colors: [
+                          (isButtonDisabled == true)
+                              ? Color(0xbbaaaaaa)
+                              : Color(0xbb38e2f5),
+                          (isButtonDisabled == true)
+                              ? Color(0xbbaaaaaa)
+                              : Color(0xbbbe31f5),
+                        ],
+                      ),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedCurrency =
+                              currenciesList[pickedCurrencyNumber];
+                          isButtonDisabled = true;
+                        });
+                      },
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                        shadowColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                        overlayColor: (isButtonDisabled == true)
+                            ? MaterialStateProperty.all(Colors.transparent)
+                            : MaterialStateProperty.all(Color(0x5538e2f5)),
+                      ),
+                      child: Text(
+                        'CONVERT',
+                        style: TextStyle(
+                          color: Color(0xfff1f1f1),
+                          fontFamily: 'Anaheim',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
