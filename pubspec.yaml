@@ -1,4 +1,4 @@
-name: crypto_exhcange_rates
+name: crypto_converter
 description: A simple mobile app that converts crypto to major fiat currencies
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

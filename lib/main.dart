@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:crypto_converter/price_page.dart';
 
 void main() {
   runApp(CryptoConverterApp());
@@ -9,11 +10,12 @@ class CryptoConverterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Crypto Exchange Rates',
+      debugShowCheckedModeBanner: false,
+      title: 'Crypto Converter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: MyHomePage(title: 'Crypto Exchange Rates'),
+      home: PricePage(),
     );
   }
 }
