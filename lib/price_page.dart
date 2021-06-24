@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:crypto_converter/currencies.dart';
+import 'package:crypto_converter/widgets/dashboard_widgets.dart';
+import 'package:crypto_converter/utilities/textstyling.dart';
+import 'package:crypto_converter/utilities/color_palette.dart';
+import 'package:crypto_converter/utilities/decorations.dart';
 
 class PricePage extends StatefulWidget {
   @override
@@ -52,15 +56,12 @@ class _PricePageState extends State<PricePage> {
     List<Text> currencies = [];
 
     for (String currency in currenciesList) {
-      currencies.add(Text(
-        currency,
-        style: TextStyle(
-          fontSize: 24.0,
-          fontFamily: 'Barlow',
-          fontWeight: FontWeight.w500,
-          color: Color(0xff121212),
+      currencies.add(
+        Text(
+          currency,
+          style: currencyTextStyle,
         ),
-      ));
+      );
     }
 
     return CupertinoPicker(
@@ -88,21 +89,7 @@ class _PricePageState extends State<PricePage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            gradient: RadialGradient(
-              center: Alignment(-1.5, -2.0),
-              radius: 2.2,
-              stops: [
-                0.2,
-                1.8,
-              ],
-              colors: [
-                Color(0xbbd6fbff),
-                Color(0xccfefefe),
-              ],
-            ),
-          ),
+          decoration: mainPageBackgroundDecoration,
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -112,11 +99,7 @@ class _PricePageState extends State<PricePage> {
                   child: Center(
                     child: Text(
                       'CRYPTO CONVERTER',
-                      style: TextStyle(
-                        fontFamily: 'Anaheim',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.0,
-                      ),
+                      style: mainTitleTextStyle,
                     ),
                   )),
               Expanded(
@@ -125,11 +108,7 @@ class _PricePageState extends State<PricePage> {
                     child: Text(
                       'last update on 25 June 2021, 12:34:56',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Barlow',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13.0,
-                      ),
+                      style: statusTextStyle,
                     ),
                   )),
               Expanded(
@@ -227,119 +206,13 @@ class _PricePageState extends State<PricePage> {
                       ),
                       child: Text(
                         'CONVERT',
-                        style: TextStyle(
-                          color: Color(0xfff1f1f1),
-                          fontFamily: 'Anaheim',
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: convertButtonTextStyle,
                       ),
                     ),
                   ),
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CryptoRateWidget extends StatelessWidget {
-  final String cryptoCurrency;
-  final String fiatCurrency;
-  final String rate;
-  final AssetImage cryptoImage;
-
-  const CryptoRateWidget(
-      {required this.cryptoCurrency,
-      required this.fiatCurrency,
-      required this.rate,
-      required this.cryptoImage});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            gradient: RadialGradient(
-              // begin: Alignment.topLeft,
-              // end: Alignment.bottomRight,
-              center: Alignment(-0.5, -1.9),
-              radius: 2.0,
-              stops: [
-                0.3,
-                0.55,
-                0.95,
-              ],
-              colors: [
-                Color(0xccfefefe),
-                Color(0xddffffeb),
-                Color(0xee9cf7eb),
-              ],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(2, 2), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$cryptoCurrency$fiatCurrency',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 23.0,
-                        color: Color(0xff454545),
-                        fontFamily: 'Anaheim',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Image(image: cryptoImage),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$rate',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 32.0,
-                        color: Color(0xff383838),
-                        fontFamily: 'Anaheim',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
