@@ -196,6 +196,22 @@ class _PricePageState extends State<PricePage> {
                           Map<String, dynamic> result =
                               convert.jsonDecode(response);
                           print(result);
+
+                          for (Map<String, dynamic> rate in result['rates']) {
+                            if (rate['asset_id_quote'] == 'BTC') {
+                              print(
+                                  "${rate['asset_id_quote']} ${rate['rate']}");
+                            } else if (rate['asset_id_quote'] == 'ETH') {
+                              print(
+                                  "${rate['asset_id_quote']} ${rate['rate']}");
+                            } else if (rate['asset_id_quote'] == 'DOGE') {
+                              print(
+                                  "${rate['asset_id_quote']} ${rate['rate']}");
+                            } else if (rate['asset_id_quote'] == 'LTC') {
+                              print(
+                                  "${rate['asset_id_quote']} ${rate['rate']}");
+                            }
+                          }
                         }
 
                         setState(() {
