@@ -5,6 +5,8 @@ import 'package:crypto_converter/widgets/dashboard_widgets.dart';
 import 'package:crypto_converter/utilities/textstyling.dart';
 import 'package:crypto_converter/utilities/color_palette.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
+import 'package:crypto_converter/network/networking.dart';
+import 'dart:convert' as convert;
 
 class PricePage extends StatefulWidget {
   @override
@@ -183,7 +185,19 @@ class _PricePageState extends State<PricePage> {
                       ),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        Networking network = Networking();
+
+                        var response = await network.getExchangeRate(
+                          fiatCurrency: currenciesList[pickedCurrencyNumber],
+                        );
+
+                        if (response != null) {
+                          Map<String, dynamic> result =
+                              convert.jsonDecode(response);
+                          print(result);
+                        }
+
                         setState(() {
                           selectedCurrency =
                               currenciesList[pickedCurrencyNumber];
