@@ -38,23 +38,23 @@ class CoinData {
     var url = Uri.https('rest.coinapi.io', '/v1/exchangerate/$fiatCurrency',
         {'apikey': coinAPIKey, 'invert': 'true'});
 
-    try {
-      Map<String, dynamic> result = convert.jsonDecode(
-        await Networking().networkResponse(url: url),
-      );
+    // try {
+    Map<String, dynamic> result = convert.jsonDecode(
+      await Networking().networkResponse(url: url),
+    );
 
-      return {
-        "asset_id_base": result["asset_id_base"],
-        "rates": result["rates"]
-            .where((d) =>
-                d["asset_id_quote"] == "BTC" ||
-                d["asset_id_quote"] == "ETH" ||
-                d["asset_id_quote"] == "LTC" ||
-                d["asset_id_quote"] == "DOGE")
-            .toList()
-      };
-    } catch (e) {
-      print(e);
-    }
+    return {
+      "asset_id_base": result["asset_id_base"],
+      "rates": result["rates"]
+          .where((d) =>
+              d["asset_id_quote"] == "BTC" ||
+              d["asset_id_quote"] == "ETH" ||
+              d["asset_id_quote"] == "LTC" ||
+              d["asset_id_quote"] == "DOGE")
+          .toList()
+    };
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 }

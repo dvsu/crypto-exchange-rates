@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:crypto_converter/currencies.dart';
 import 'package:crypto_converter/widgets/currency_widgets.dart';
 import 'package:crypto_converter/utilities/textstyling.dart';
-import 'package:crypto_converter/utilities/color_palette.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
+import 'package:crypto_converter/widgets/currency_selector.dart';
 import 'package:crypto_converter/widgets/title_widgets.dart';
 import 'package:crypto_converter/process/time_parser.dart';
 
@@ -26,96 +26,94 @@ class _PricePageState extends State<PricePage> {
   }
 
   void updateCurrencyData() async {
-    var result = await CoinData().getExchangeRate(
-      fiatCurrency: currenciesList[pickedCurrencyNumber],
-    );
-
-    if (result != null) {
-      print(result);
-      setState(() {
-        for (Map<String, dynamic> currency in result["rates"]) {
-          try {
-            updatedDateTime =
-                TimeParser().utcToLocalTimeAsString(currency["time"]);
-            exchangeRates[currency["asset_id_quote"].toString()] =
-                currency["rate"];
-          } catch (e) {
-            print(e);
-          }
-        }
-
-        selectedCurrency = currenciesList[pickedCurrencyNumber];
-        isButtonDisabled = true;
-      });
-    }
-  }
-
-  // a list of currency for Material design
-  DropdownButton<String> getAndroidCurrencyDropdownList() {
-    // iterate using for-in loop
-    List<DropdownMenuItem<String>> currencyItemList = [];
-
-    for (String currency in currenciesList) {
-      currencyItemList
-          .add(DropdownMenuItem(child: Text(currency), value: currency));
-    }
-
-    // alternatively, using map() method
-    // return currenciesList.map((String value) {
-    //   return DropdownMenuItem<String>(
-    //     value: value,
-    //     child: Text(
-    //       value,
-    //     ),
-    //   );
-    // }).toList();
-
-    // dropdown (Material style)
-    return DropdownButton<String>(
-      value: selectedCurrency,
-      items: currencyItemList,
-      onChanged: (value) {
-        print(value);
-        setState(() {
-          if (value != null) {
-            selectedCurrency = value;
-          }
-        });
-      },
-    );
-  }
-
-  // a list of currency for Cupertino design
-  CupertinoPicker getIOSCurrencyPicker() {
-    List<Text> currencies = [];
-
-    for (String currency in currenciesList) {
-      currencies.add(
-        Text(
-          currency,
-          style: currencyTextStyle,
-        ),
+    try {
+      var result = await CoinData().getExchangeRate(
+        fiatCurrency: currenciesList[pickedCurrencyNumber],
       );
-    }
-
-    return CupertinoPicker(
-      useMagnifier: true,
-      itemExtent: 35.0,
-      onSelectedItemChanged: (selectedItem) {
-        print(selectedItem);
+      if (result != null) {
+        print(result);
         setState(() {
-          pickedCurrencyNumber = selectedItem;
-          if (currenciesList[pickedCurrencyNumber] != selectedCurrency) {
-            isButtonDisabled = false;
-          } else {
-            isButtonDisabled = true;
+          for (Map<String, dynamic> currency in result["rates"]) {
+            try {
+              updatedDateTime =
+                  TimeParser().utcToLocalTimeAsString(currency["time"]);
+              exchangeRates[currency["asset_id_quote"].toString()] =
+                  currency["rate"];
+            } catch (e) {
+              print(e);
+            }
           }
+
+          selectedCurrency = currenciesList[pickedCurrencyNumber];
+          isButtonDisabled = true;
         });
-      },
-      children: currencies,
-      magnification: 1.1,
-      looping: true,
-    );
+      }
+    } catch (e) {
+      print(e);
+      showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Network Connection Error'),
+              content: SingleChildScrollView(
+                padding: EdgeInsets.all(0.0),
+                child: ListBody(
+                  children: <Widget>[
+                    Text('$e'),
+                    Text(
+                        'Ensure either mobile network or WiFi is connected to the internet.'),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        child: const Text('Okay'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // actions: <Widget>[
+              //   SizedBox(
+              //     width: double.infinity,
+              //     child: TextButton(
+              //       child: const Text('Okay'),
+              //       onPressed: () {
+              //         Navigator.of(context).pop();
+              //       },
+              //     ),
+              //   ),
+              // ],
+              contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+            );
+          });
+    }
+  }
+
+  void onChangedMaterialCurrencyPicker(String? pickedValue) {
+    print(pickedValue);
+    setState(() {
+      if (pickedValue != null) {
+        selectedCurrency = pickedValue;
+      }
+    });
+  }
+
+  void onSelectedCupertinoCurrencyPicker(int itemNumber) {
+    print(itemNumber);
+    setState(() {
+      pickedCurrencyNumber = itemNumber;
+      if (currenciesList[pickedCurrencyNumber] != selectedCurrency) {
+        isButtonDisabled = false;
+      } else {
+        isButtonDisabled = true;
+      }
+    });
   }
 
   @override
@@ -184,7 +182,11 @@ class _PricePageState extends State<PricePage> {
                   height: 150.0,
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(10.0),
-                  child: getIOSCurrencyPicker(),
+                  child: CupertinoCurrencyPicker(
+                    onSelectedItem: (itemNumber) {
+                      onSelectedCupertinoCurrencyPicker(itemNumber);
+                    },
+                  ),
                 ),
               ),
               Expanded(
