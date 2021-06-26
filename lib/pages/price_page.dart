@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:crypto_converter/currencies.dart';
-import 'package:crypto_converter/widgets/dashboard_widgets.dart';
+import 'package:crypto_converter/widgets/currency_widgets.dart';
 import 'package:crypto_converter/utilities/textstyling.dart';
 import 'package:crypto_converter/utilities/color_palette.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
+import 'package:crypto_converter/widgets/title_widgets.dart';
 
 class PricePage extends StatefulWidget {
   @override
@@ -15,6 +16,41 @@ class _PricePageState extends State<PricePage> {
   String selectedCurrency = 'USD';
   int pickedCurrencyNumber = 0;
   bool isButtonDisabled = false;
+  Map<String, double> exchangeRates = {};
+
+  void initState() {
+    super.initState();
+    updateCurrencyData();
+  }
+
+  void updateCurrencyData() async {
+    var result = await CoinData().getExchangeRate(
+      fiatCurrency: currenciesList[pickedCurrencyNumber],
+    );
+
+    if (result != null) {
+      print(result);
+      setState(() {
+        for (Map<String, dynamic> currency in result["rates"]) {
+          try {
+            exchangeRates[currency["asset_id_quote"].toString()] =
+                currency["rate"];
+          } catch (e) {
+            print(e);
+          }
+        }
+
+        selectedCurrency = currenciesList[pickedCurrencyNumber];
+        isButtonDisabled = true;
+      });
+    }
+  }
+
+  // Future<dynamic> getCurrencyData() async {
+  //   return await CoinData().getExchangeRate(
+  //     fiatCurrency: currenciesList[pickedCurrencyNumber],
+  //   );
+  // }
 
   // a list of currency for Material design
   DropdownButton<String> getAndroidCurrencyDropdownList() {
@@ -94,14 +130,7 @@ class _PricePageState extends State<PricePage> {
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Expanded(
-                  flex: 2,
-                  child: Center(
-                    child: Text(
-                      'CRYPTO CONVERTER',
-                      style: mainTitleTextStyle,
-                    ),
-                  )),
+              TitleWidget(titleName: 'CRYPTO CONVERTER'),
               Expanded(
                   flex: 1,
                   child: Center(
@@ -118,13 +147,13 @@ class _PricePageState extends State<PricePage> {
                     CryptoRateWidget(
                       cryptoCurrency: 'BTC',
                       fiatCurrency: selectedCurrency,
-                      rate: '23,456',
+                      rate: exchangeRates["BTC"]?.toStringAsFixed(0) ?? 'N/A',
                       cryptoImage: AssetImage('images/bitcoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'ETH',
                       fiatCurrency: selectedCurrency,
-                      rate: '3,123',
+                      rate: exchangeRates["ETH"]?.toStringAsFixed(0) ?? 'N/A',
                       cryptoImage: AssetImage('images/ethereum.png'),
                     ),
                   ],
@@ -137,13 +166,13 @@ class _PricePageState extends State<PricePage> {
                     CryptoRateWidget(
                       cryptoCurrency: 'LTC',
                       fiatCurrency: selectedCurrency,
-                      rate: '123.12',
+                      rate: exchangeRates["LTC"]?.toStringAsFixed(1) ?? 'N/A',
                       cryptoImage: AssetImage('images/litecoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'DOGE',
                       fiatCurrency: selectedCurrency,
-                      rate: '0.12',
+                      rate: exchangeRates["DOGE"]?.toStringAsFixed(3) ?? 'N/A',
                       cryptoImage: AssetImage('images/doge.png'),
                     ),
                   ],
@@ -183,20 +212,8 @@ class _PricePageState extends State<PricePage> {
                       ),
                     ),
                     child: ElevatedButton(
-                      onPressed: () async {
-                        var result = await CoinData().getExchangeRate(
-                          fiatCurrency: currenciesList[pickedCurrencyNumber],
-                        );
-
-                        if (result != null) {
-                          print(result);
-                        }
-
-                        setState(() {
-                          selectedCurrency =
-                              currenciesList[pickedCurrencyNumber];
-                          isButtonDisabled = true;
-                        });
+                      onPressed: () {
+                        updateCurrencyData();
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(
