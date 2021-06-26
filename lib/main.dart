@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:crypto_converter/price_page.dart';
+import 'package:crypto_converter/pages/price_page.dart';
 
 void main() {
   runApp(CryptoConverterApp());

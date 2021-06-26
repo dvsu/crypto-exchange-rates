@@ -6,7 +6,6 @@ import 'package:crypto_converter/utilities/textstyling.dart';
 import 'package:crypto_converter/utilities/color_palette.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
 import 'package:crypto_converter/network/networking.dart';
-import 'dart:convert' as convert;
 
 class PricePage extends StatefulWidget {
   @override
@@ -188,30 +187,12 @@ class _PricePageState extends State<PricePage> {
                       onPressed: () async {
                         Networking network = Networking();
 
-                        var response = await network.getExchangeRate(
+                        var result = await network.getExchangeRate(
                           fiatCurrency: currenciesList[pickedCurrencyNumber],
                         );
 
-                        if (response != null) {
-                          Map<String, dynamic> result =
-                              convert.jsonDecode(response);
+                        if (result != null) {
                           print(result);
-
-                          for (Map<String, dynamic> rate in result['rates']) {
-                            if (rate['asset_id_quote'] == 'BTC') {
-                              print(
-                                  "${rate['asset_id_quote']} ${rate['rate']}");
-                            } else if (rate['asset_id_quote'] == 'ETH') {
-                              print(
-                                  "${rate['asset_id_quote']} ${rate['rate']}");
-                            } else if (rate['asset_id_quote'] == 'DOGE') {
-                              print(
-                                  "${rate['asset_id_quote']} ${rate['rate']}");
-                            } else if (rate['asset_id_quote'] == 'LTC') {
-                              print(
-                                  "${rate['asset_id_quote']} ${rate['rate']}");
-                            }
-                          }
                         }
 
                         setState(() {
