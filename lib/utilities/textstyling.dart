@@ -21,14 +21,14 @@ const TextStyle currencyTextStyle = TextStyle(
 );
 
 const TextStyle rateWidgetTitleTextStyle = TextStyle(
-  fontSize: 23.0,
+  fontSize: 22.0,
   color: rateWidgetTitleColor,
   fontFamily: 'Anaheim',
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle rateWidgetValueTextStyle = TextStyle(
-  fontSize: 32.0,
+  fontSize: 24.0,
   color: rateWidgetValueColor,
   fontFamily: 'Anaheim',
   fontWeight: FontWeight.bold,

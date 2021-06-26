@@ -1,12 +1,13 @@
 import 'package:crypto_converter/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_converter/currencies.dart';
+import 'package:crypto_converter/process/currencies.dart';
 import 'package:crypto_converter/widgets/currency_widgets.dart';
 import 'package:crypto_converter/utilities/textstyling.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
 import 'package:crypto_converter/widgets/currency_selector.dart';
 import 'package:crypto_converter/widgets/title_widgets.dart';
 import 'package:crypto_converter/process/time_parser.dart';
+import 'package:crypto_converter/process/currency_parser.dart';
 
 class PricePage extends StatefulWidget {
   @override
@@ -145,13 +146,17 @@ class _PricePageState extends State<PricePage> {
                     CryptoRateWidget(
                       cryptoCurrency: 'BTC',
                       fiatCurrency: selectedCurrency,
-                      rate: exchangeRates["BTC"]?.toStringAsFixed(0) ?? 'N/A',
+                      rate: CurrencyParser().convertToCurrencyFormat(
+                          value: exchangeRates["BTC"],
+                          targetCurrency: selectedCurrency),
                       cryptoImage: AssetImage('images/bitcoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'ETH',
                       fiatCurrency: selectedCurrency,
-                      rate: exchangeRates["ETH"]?.toStringAsFixed(0) ?? 'N/A',
+                      rate: CurrencyParser().convertToCurrencyFormat(
+                          value: exchangeRates["ETH"],
+                          targetCurrency: selectedCurrency),
                       cryptoImage: AssetImage('images/ethereum.png'),
                     ),
                   ],
@@ -164,13 +169,17 @@ class _PricePageState extends State<PricePage> {
                     CryptoRateWidget(
                       cryptoCurrency: 'LTC',
                       fiatCurrency: selectedCurrency,
-                      rate: exchangeRates["LTC"]?.toStringAsFixed(1) ?? 'N/A',
+                      rate: CurrencyParser().convertToCurrencyFormat(
+                          value: exchangeRates["LTC"],
+                          targetCurrency: selectedCurrency),
                       cryptoImage: AssetImage('images/litecoin.png'),
                     ),
                     CryptoRateWidget(
                       cryptoCurrency: 'DOGE',
                       fiatCurrency: selectedCurrency,
-                      rate: exchangeRates["DOGE"]?.toStringAsFixed(3) ?? 'N/A',
+                      rate: CurrencyParser().convertToCurrencyFormat(
+                          value: exchangeRates["DOGE"],
+                          targetCurrency: selectedCurrency),
                       cryptoImage: AssetImage('images/doge.png'),
                     ),
                   ],

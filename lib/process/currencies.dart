@@ -26,6 +26,54 @@ const List<String> currenciesList = [
   'ZAR'
 ];
 
+Map<String, String> currencyLocale = {
+  'AUD': 'en_AU',
+  'BRL': 'pt_BR',
+  'CAD': 'en_CA',
+  'CNY': 'zh_CN',
+  'EUR': 'en_150',
+  'GBP': 'en_GB',
+  'HKD': 'en_HK',
+  'IDR': 'in_ID',
+  'ILS': 'iw_IL',
+  'INR': 'en_IN',
+  'JPY': 'ja_JP',
+  'MXN': 'es_MX',
+  'NOK': 'nb_NO',
+  'NZD': 'en_NZ',
+  'PLN': 'pl_PL',
+  'RON': 'ro_RO',
+  'RUB': 'ru_RU',
+  'SEK': 'sv_SE',
+  'SGD': 'en_SG',
+  'USD': 'en_US',
+  'ZAR': 'en_ZA'
+};
+
+Map<String, String> currencySymbol = {
+  'AUD': '\$',
+  'BRL': 'R\$',
+  'CAD': '\$',
+  'CNY': '¥',
+  'EUR': '€',
+  'GBP': '£',
+  'HKD': 'HK\$',
+  'IDR': 'Rp',
+  'ILS': '₪',
+  'INR': '₹',
+  'JPY': '¥',
+  'MXN': '\$',
+  'NOK': 'kr',
+  'NZD': '\$',
+  'PLN': 'zl',
+  'RON': 'lei',
+  'RUB': '₽',
+  'SEK': 'kr',
+  'SGD': '\$',
+  'USD': '\$',
+  'ZAR': 'R'
+};
+
 const List<String> cryptoList = [
   'BTC',
   'ETH',

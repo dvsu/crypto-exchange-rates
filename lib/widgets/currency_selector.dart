@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:crypto_converter/currencies.dart';
+import 'package:crypto_converter/process/currencies.dart';
 import 'package:crypto_converter/utilities/textstyling.dart';
 
 // List of DropdownMenuItem widgets to be used for MaterialCurrencyPicker
