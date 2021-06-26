@@ -7,7 +7,10 @@ import 'package:crypto_converter/utilities/textstyling.dart';
 final List<DropdownMenuItem<String>> currencyItemList = [
   for (String currency in currenciesList)
     DropdownMenuItem(
-      child: Text(currency),
+      child: Text(
+        currency,
+        style: currencyTextStyle,
+      ),
       value: currency,
     )
 ];
