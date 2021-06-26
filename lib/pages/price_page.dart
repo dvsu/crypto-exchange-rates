@@ -6,6 +6,7 @@ import 'package:crypto_converter/utilities/textstyling.dart';
 import 'package:crypto_converter/utilities/color_palette.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
 import 'package:crypto_converter/widgets/title_widgets.dart';
+import 'package:crypto_converter/process/time_parser.dart';
 
 class PricePage extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _PricePageState extends State<PricePage> {
   String selectedCurrency = 'USD';
   int pickedCurrencyNumber = 0;
   bool isButtonDisabled = false;
+  String updatedDateTime = '';
   Map<String, double> exchangeRates = {};
 
   void initState() {
@@ -33,6 +35,8 @@ class _PricePageState extends State<PricePage> {
       setState(() {
         for (Map<String, dynamic> currency in result["rates"]) {
           try {
+            updatedDateTime =
+                TimeParser().utcToLocalTimeAsString(currency["time"]);
             exchangeRates[currency["asset_id_quote"].toString()] =
                 currency["rate"];
           } catch (e) {
@@ -45,12 +49,6 @@ class _PricePageState extends State<PricePage> {
       });
     }
   }
-
-  // Future<dynamic> getCurrencyData() async {
-  //   return await CoinData().getExchangeRate(
-  //     fiatCurrency: currenciesList[pickedCurrencyNumber],
-  //   );
-  // }
 
   // a list of currency for Material design
   DropdownButton<String> getAndroidCurrencyDropdownList() {
@@ -135,7 +133,9 @@ class _PricePageState extends State<PricePage> {
                   flex: 1,
                   child: Center(
                     child: Text(
-                      'last update on 25 June 2021, 12:34:56',
+                      (updatedDateTime == '')
+                          ? ''
+                          : 'last update on $updatedDateTime',
                       textAlign: TextAlign.center,
                       style: statusTextStyle,
                     ),
