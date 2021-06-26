@@ -5,7 +5,6 @@ import 'package:crypto_converter/widgets/dashboard_widgets.dart';
 import 'package:crypto_converter/utilities/textstyling.dart';
 import 'package:crypto_converter/utilities/color_palette.dart';
 import 'package:crypto_converter/utilities/decorations.dart';
-import 'package:crypto_converter/network/networking.dart';
 
 class PricePage extends StatefulWidget {
   @override
@@ -185,9 +184,7 @@ class _PricePageState extends State<PricePage> {
                     ),
                     child: ElevatedButton(
                       onPressed: () async {
-                        Networking network = Networking();
-
-                        var result = await network.getExchangeRate(
+                        var result = await CoinData().getExchangeRate(
                           fiatCurrency: currenciesList[pickedCurrencyNumber],
                         );
 
